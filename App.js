@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 import AppLoading from 'expo-app-loading';
 
-import Home from './components/Home'
+import AppNavigator from "./routes/Tabs";
 
 function getFonts(){
   return Font.loadAsync({
@@ -17,9 +17,9 @@ export default function App() {
 
   if(fontsLoaded){
     return (
-      <View>
+      <View style={{flex: 1,}}>
         <StatusBar style="auto" /> 
-        <Home />
+        <AppNavigator />
       </View>
     );
   } else {
