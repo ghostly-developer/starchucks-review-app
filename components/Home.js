@@ -1,18 +1,54 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Modal, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { globalStyles } from '../styles/Global';
 import Card from '../shared/Card';
+import { MaterialIcons } from '@expo/vector-icons';
+import ReviewForm from './ReviewForm';
 
 export default function Home({ navigation }){
+    const [modalOpen, setModalOpen] = useState(false);
 
     const [reviews, setReviews] = useState([
-        { title: 'Ice Brrappucino', rating: 5, body: 'lorem ipsum', key: '1' },
-        { title: 'Caffe Foggo', rating: 4, body: 'lorem ipsum', key: '2' },
-        { title: 'Americano: Electric Boogaloo', rating: 3, body: 'lorem ipsum', key: '3' },
+        { title: 'Ice Brrappucino', rating: 5, body: 'Lorem ipsum', key: '1' },
+        { title: 'Caffe Foggo', rating: 4, body: 'Lorem ipsum', key: '2' },
+        { title: 'Americano: Electric Boogaloo', rating: 3, body: 'Lorem ipsum', key: '3' },
     ]);
+
+    function addReview(review){
+        review.key = Math.random().toString(); //not ideal
+        setReviews((currentReviews) => {
+            return [review, ...currentReviews]
+        });
+        setModalOpen(false);
+    }
 
     return(
         <View style={ globalStyles.container }>    
+
+        <Modal visible={modalOpen} animationType='slide'>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.modalContent}>
+                    <TouchableOpacity>
+                        <MaterialIcons 
+                            name='delete-forever'
+                            size={24}
+                            style={{...styles.modalToggle, ...styles.modalClose}}
+                            onPress={() => setModalOpen(false)}
+                        />
+                    </TouchableOpacity>
+                    <ReviewForm addReview={addReview} />
+                </View>
+            </TouchableWithoutFeedback>
+        </Modal>
+
+        <TouchableOpacity onPress={() => setModalOpen(true)}>
+            <MaterialIcons 
+                name='add'
+                size={24}
+                style={styles.modalToggle}
+            />
+        </TouchableOpacity>
+
         <FlatList 
             data={ reviews }
             renderItem={ ({ item }) => (
@@ -30,15 +66,22 @@ export default function Home({ navigation }){
 
 const styles = StyleSheet.create({
     
-    buttonStyle: {
-        justifyContent: 'center',
-        backgroundColor: '#007a33',
+    modalToggle: {
+        marginBottom: 10,
+        borderWidth: 1,
+        borderColor: '#007a33',
+        padding: 10,
         borderRadius: 16,
-        width: 80,
-        height: 30,
-        flexDirection: 'row',
-        alignItems: 'center',
+        alignSelf: 'center',
     },
 
+    modalClose: {
+        marginTop: 20,
+        marginBottom: 0,
+    },
+
+    modalContent: {
+        flex: 1,
+    }
 })
 

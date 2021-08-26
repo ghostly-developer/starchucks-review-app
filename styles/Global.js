@@ -30,6 +30,15 @@ export const globalStyles = StyleSheet.create({
         lineHeight: 20, 
         fontSize: 14,
     },
+
+    textInput: {
+        borderWidth: 1,
+        borderColor: '#007a33', 
+        padding: 10,
+        fontSize: 18,
+        borderRadius: 16,
+        marginVertical: 8,
+    }
 });
 
 export const Images = {
