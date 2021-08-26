@@ -2,14 +2,32 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, TextInput, View, Text} from 'react-native';
 import { globalStyles } from '../styles/Global';
 import { Formik } from 'formik';
+import * as yup from 'yup';
+
+const ReviewSchema = yup.object({
+    title: yup.string()
+    .required()
+    .min(5),
+
+    body: yup.string()
+    .required()
+    .min(16),
+
+    rating: yup.string()
+    .required()
+    .test('is-in-range', 'Whoops! Rating must be a number 1-5.', (value) => {
+        return parseInt(value) < 6 && parseInt(value) > 0
+    })
+
+})
 
 export default function ReviewForm({ addReview }){
     return(
         <View style={globalStyles.container}>
             <Formik
                 initialValues={{title: '', body: '', rating: ''}}
+                validationSchema={ ReviewSchema }
                 onSubmit={(values) => {
-                    actions.resetForm();
                     addReview(values);
                 }}
             >
