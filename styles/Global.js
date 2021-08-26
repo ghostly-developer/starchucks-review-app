@@ -38,6 +38,12 @@ export const globalStyles = StyleSheet.create({
         fontSize: 18,
         borderRadius: 16,
         marginVertical: 8,
+    },
+    
+    errorText: {
+        color: 'crimson',
+        fontWeight: 'bold',
+        textAlign: 'center',
     }
 });
 
